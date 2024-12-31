@@ -13,9 +13,24 @@ export interface FetchOptions {
 }
 
 export abstract class ShopStoreBase {
+
+  private accessToken: string;
+
+  getToken(): string {
+    return this.accessToken;
+  }
+
+  setToken(token: string): void {
+    this.accessToken = token;
+  }
+
+  abstract login(clientId: string, clientSecret: string, code: string, redirectUri: string): Promise<unknown> ;
+
+  abstract createProduct(payload: unknown): Promise<unknown>;
+
   /**
    * Método abstrato: obriga classes filhas a fornecer implementação.
-   */
+   */  
   abstract getSellerProducts(sellerId: string, options?: FetchOptions): Promise<IProduct[]>;
 
   /**
@@ -30,4 +45,5 @@ export abstract class ShopStoreBase {
   formatPrice(value: number, currency: string): string {
     return `${currency} ${value.toFixed(2)}`;
   }
+
 }
